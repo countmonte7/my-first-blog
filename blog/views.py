@@ -1,8 +1,9 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from .models import Post, Comment
-from .forms import PostForm, CommentForm
+from .forms import PostForm, CommentForm, UserRegisterForm
 
 
 def post_list(request):
@@ -90,3 +91,23 @@ def comment_remove(request, pk):
     comment = get_object_or_404(Comment, pk=pk)
     comment.delete()
     return redirect('post_detail', pk=comment.post.pk)
+
+
+def register_view(request):
+    next = request.GET.get('next')
+    form = UserRegisterForm(request.POST or None)
+    if form.is_valid():
+        user = form.save(commit=False)
+        password = form.cleaned_data.get('password')
+        user.set_password(password)
+        user.save()
+        new_user = authenticate(username=user.username, password=password)
+        login(request, new_user)
+        if next:
+            return redirect(next)
+        return redirect('/')
+    
+    context = {
+        'form': form
+    }
+    return render(request, "registration/signup.html", context)
