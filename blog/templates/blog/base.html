@@ -25,6 +25,7 @@
                 </p>
             {% else %}
                 <a href="{% url 'login' %}?next={{ request.path }}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
+                <a href="{% url 'register_view' %}" class="top-menu"><span class="glyphicon glyphicon-flag"></span></a>
             {% endif %}
             <h1><a href="/">Kwangmin Yoo</a></h1>
         </div>
