@@ -1,10 +1,29 @@
 {% extends 'blog/base.html' %}
-{% load crispy_forms_tags %}
 
 {% block content %}
-    <form method="POST" novalidate>
+    
+    <form method="POST">
         {% csrf_token %}
-        {{ form|crispy }}
-        <input type="submit" value="회원가입">
+        <table>
+            <tr>
+                <td class="table_data"> {{ form.username.label_tag}} </td>
+                <td class="table_data"> {{ form.username }} </td>
+            </tr>
+            <tr>
+                <td class="table_data"> {{ form.email.label_tag }} </td>
+                <td class="table_data"> {{ form.email }}</td>
+            </tr>
+            <tr>
+                <td class="table_data"> {{ form.email2.label_tag }} </td>
+                <td class="table_data"> {{ form.email2 }}</td>
+            </tr>
+            <tr>
+                <td class="table_data"> {{ form.password.label_tag }} </td>
+                <td class="table_data"> {{ form.password }}</td>
+            </tr>
+        </table>
+        
+        <input type="submit" value="회원가입" 
+        onclick="return alert('환영합니다')">
     </form>
 {% endblock %}
